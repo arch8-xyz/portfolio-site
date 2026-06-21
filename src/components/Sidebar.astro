@@ -1,0 +1,53 @@
+---
+import "../styles/global.css";
+import { getCollection } from "astro:content";
+
+const getProjectSlug = (id: string) => id.replace(/\.md$/, "");
+const projects = (await getCollection("projects")).sort((a, b) =>
+    a.data.year.localeCompare(b.data.year),
+);
+---
+
+<aside
+    class="fixed left-0 top-0 z-10 flex h-screen w-72 flex-col justify-between bg-white p-6"
+>
+    <div>
+        <h1 class="text-3xl font-bold">repertoire</h1>
+        <p>c/o Archit Dhiman</p>
+        <div class="mt-24 space-y-2">
+            {
+                projects.map((project) => (
+                    <a
+                        class="block hover:underline"
+                        href={`/#${getProjectSlug(project.id)}`}
+                        data-project-link
+                        data-project-id={getProjectSlug(project.id)}
+                    >
+                        {project.data.year} {project.data.title}
+                    </a>
+                ))
+            }
+        </div>
+    </div>
+</aside>
+
+<script>
+    document.querySelectorAll("[data-project-link]").forEach((link) => {
+        link.addEventListener("click", (event) => {
+            const projectId = link.getAttribute("data-project-id");
+            if (!projectId) return;
+
+            const target = document.getElementById(projectId);
+            if (!target) return;
+
+            event.preventDefault();
+
+            target.scrollIntoView({
+                behavior: "smooth",
+                block: "center",
+            });
+
+            history.replaceState(null, "", `#${projectId}`);
+        });
+    });
+</script>

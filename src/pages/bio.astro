@@ -1,0 +1,35 @@
+---
+import Layout from "../layouts/Layout.astro";
+import Nav from "../components/Nav.astro";
+import Sidebar from "../components/Sidebar.astro";
+---
+
+<Layout title="Bio">
+    <main class="min-h-screen bg-white">
+        <Nav transition:persist />
+
+        <Sidebar transition:persist />
+
+        <section
+            class="ml-72 p-8 pt-24"
+            transition:name="main-content"
+            transition:animate="slide"
+        >
+            <article
+                class="max-w-4xl space-y-6 [&_h1]:text-5xl [&_h1]:font-bold [&_p]:max-w-2xl [&_p]:leading-7"
+            >
+                <h1>Bio</h1>
+
+                <p>
+                    Archit Dhiman is a designer and researcher working across
+                    technology, culture, craft, and future-facing systems.
+                </p>
+
+                <p>
+                    Replace this placeholder with your full biography, practice
+                    statement, exhibitions, collaborations, or contact context.
+                </p>
+            </article>
+        </section>
+    </main>
+</Layout>

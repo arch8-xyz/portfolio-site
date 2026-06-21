@@ -1,0 +1,93 @@
+---
+import "../styles/global.css";
+import { getCollection } from "astro:content";
+
+const getProjectSlug = (id: string) => id.replace(/\.md$/, "");
+const projects = (await getCollection("projects")).sort((a, b) =>
+    a.data.year.localeCompare(b.data.year),
+);
+const projectTypes = [
+    ...new Set(projects.flatMap((project) => project.data.types)),
+];
+---
+
+<div class="space-y-8">
+    <div
+        class="sticky top-20 z-20 flex flex-wrap gap-2 bg-white/80 py-4 backdrop-blur-sm"
+    >
+        {
+            projectTypes.map((type) => (
+                <button
+                    class="border px-3 py-1 text-sm uppercase transition-colors hover:bg-black hover:text-white aria-pressed:bg-black aria-pressed:text-white"
+                    type="button"
+                    aria-pressed="false"
+                    data-project-filter={type}
+                >
+                    {type}
+                </button>
+            ))
+        }
+    </div>
+
+    <div class="space-y-8">
+        {
+            projects.map((project) => (
+                <a
+                    id={getProjectSlug(project.id)}
+                    class="flex h-80 scroll-m-8 items-center justify-center border text-current no-underline"
+                    href={`/projects/${getProjectSlug(project.id)}/`}
+                    data-project-card
+                    data-project-types={project.data.types.join("|")}
+                >
+                    <div>
+                        <h2>{project.data.title}</h2>
+
+                        <div>{project.data.year}</div>
+
+                        </div>
+                    </div>
+                </a>
+            ))
+        }
+    </div>
+</div>
+
+<script>
+    const selectedTypes = new Set<string>();
+    const filterButtons = document.querySelectorAll<HTMLButtonElement>(
+        "[data-project-filter]",
+    );
+    const projectCards = document.querySelectorAll<HTMLElement>(
+        "[data-project-card]",
+    );
+
+    function updateProjectFilters() {
+        projectCards.forEach((card) => {
+            const projectTypes = new Set(
+                card.dataset.projectTypes?.split("|").filter(Boolean) ?? [],
+            );
+            const shouldShow =
+                selectedTypes.size === 0 ||
+                [...selectedTypes].some((type) => projectTypes.has(type));
+
+            card.hidden = !shouldShow;
+        });
+    }
+
+    filterButtons.forEach((button) => {
+        button.addEventListener("click", () => {
+            const type = button.dataset.projectFilter;
+            if (!type) return;
+
+            if (selectedTypes.has(type)) {
+                selectedTypes.delete(type);
+                button.setAttribute("aria-pressed", "false");
+            } else {
+                selectedTypes.add(type);
+                button.setAttribute("aria-pressed", "true");
+            }
+
+            updateProjectFilters();
+        });
+    });
+</script>

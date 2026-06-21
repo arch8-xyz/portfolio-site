@@ -1,23 +1,25 @@
 ---
-import Layout from "../layouts/Layout.astro";
+import Layout from "./Layout.astro";
 import Nav from "../components/Nav.astro";
 import Sidebar from "../components/Sidebar.astro";
-import WorkView from "../components/WorkView.astro";
+
+const { title = "Archit Dhiman" } = Astro.props;
 ---
 
-<Layout>
-    <main class="min-h-screen bg-white">
+<Layout title={title}>
+    <main class="min-h-screen">
         <Nav transition:persist />
 
         <Sidebar transition:persist />
 
         <section
-            id="work"
             class="ml-72 p-8 pt-24"
             transition:name="main-content"
             transition:animate="slide"
         >
-            <WorkView />
+            <article class="max-w-4xl space-y-6 [&_h1]:text-5xl [&_h1]:font-bold [&_p]:max-w-2xl [&_p]:leading-7">
+                <slot />
+            </article>
         </section>
     </main>
 </Layout>

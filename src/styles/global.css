@@ -1,1 +1,10 @@
+@import url("https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,200..800&display=swap");
 @import "tailwindcss";
+
+@theme {
+    --font-display: "Bricolage Grotesque", sans-serif;
+}
+
+html {
+    font-family: "Bricolage Grotesque", sans-serif;
+}

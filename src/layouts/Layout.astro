@@ -1,23 +1,21 @@
+---
+const { title = "Repertoire" } = Astro.props;
+import "../styles/global.css";
+import { ClientRouter } from "astro:transitions";
+import Symbols from "../components/Symbols.astro";
+---
+
 <!doctype html>
 <html lang="en">
-	<head>
-		<meta charset="UTF-8" />
-		<meta name="viewport" content="width=device-width" />
-		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-		<link rel="icon" href="/favicon.ico" />
-		<meta name="generator" content={Astro.generator} />
-		<title>Astro Basics</title>
-	</head>
-	<body>
-		<slot />
-	</body>
-</html>
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width" />
+        <title>{title}</title>
+        <ClientRouter />
+    </head>
 
-<style>
-	html,
-	body {
-		margin: 0;
-		width: 100%;
-		height: 100%;
-	}
-</style>
+    <body class="bg-stone-100 text-stone-900 font-display">
+        <slot />
+        <Symbols transition:persist />
+    </body>
+</html>
