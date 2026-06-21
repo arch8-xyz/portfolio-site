@@ -4,4 +4,4 @@ services:
     container_name: repertoire-site
     restart: unless-stopped
     ports:
-      - "9090:90"
+      - "9090:80"
