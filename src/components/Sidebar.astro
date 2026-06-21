@@ -9,21 +9,23 @@ const projects = (await getCollection("projects")).sort((a, b) =>
 ---
 
 <aside
-    class="fixed left-0 top-0 z-10 flex h-screen w-72 flex-col justify-between bg-white p-6"
+    class="static lg:fixed left-0 top-0 z-10 flex h-auto lg:h-screen w-full lg:w-72 flex-col justify-between bg-white p-6"
 >
     <div>
         <h1 class="text-3xl font-bold">repertoire</h1>
         <p>c/o Archit Dhiman</p>
-        <div class="mt-24 space-y-2">
+        <div class="mt-24 space-y-2 hidden lg:block">
+            <p><strong>select work</strong></p>
             {
                 projects.map((project) => (
+
                     <a
                         class="block hover:underline"
                         href={`/#${getProjectSlug(project.id)}`}
                         data-project-link
                         data-project-id={getProjectSlug(project.id)}
                     >
-                        {project.data.year} {project.data.title}
+                        {project.data.title}
                     </a>
                 ))
             }
